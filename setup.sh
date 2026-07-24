@@ -25,7 +25,8 @@ sudo apt-get install -y \
     build-essential git cmake ninja-build gawk \
     autoconf automake libtool bison flex texinfo \
     gcc g++ gperf libgmp-dev libmpfr-dev libmpc-dev \
-    libisl-dev zlib1g-dev wget curl
+    libisl-dev zlib1g-dev wget curl \
+    python3-serial
 
 echo "==> Cloning CybikoStuff"
 if [ -d "$REPO_DIR" ]; then
