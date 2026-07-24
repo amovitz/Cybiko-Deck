@@ -1,0 +1,9 @@
+[submodule "CybikoTUI"]
+	path = CybikoTUI
+	url = ./CybikoTUI/
+[submodule "CybikoStuff"]
+	path = CybikoStuff
+	url = ./CybikoStuff/
+[submodule "Pybiko"]
+	path = Pybiko
+	url = ./Pybiko/
