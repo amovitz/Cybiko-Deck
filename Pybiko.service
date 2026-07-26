@@ -1,0 +1,25 @@
+# /etc/systemd/system/Pybiko.service
+
+[Unit]
+Description=Run Pybiko early in boot
+DefaultDependencies=no
+
+# Start after the root filesystem is mounted
+After=local-fs.target
+Requires=local-fs.target
+
+# Start before networking
+Before=network-pre.target
+Before=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/pi/src/Pybiko/Pybiko.py
+Restart=no
+
+# Optional if the script writes to stdout/stderr
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=sysinit.target

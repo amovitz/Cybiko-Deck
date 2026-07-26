@@ -70,6 +70,11 @@ echo "==> Adding a udev rule for loading applications"
 sudo echo 'SUBSYSTEM=="usb", MODE="0660", GROUP="plugdev"' > /etc/udev/rules.d/00-usb-permissions.rules
 sudo udevadm control --reload-rules
 
+echo "==> Adding a system service"
+sudo cp Pybiko.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable Pybiko.service
+
 export PATH="$TOOLCHAIN_BIN:\$PATH"
 
 cat <<EOF
