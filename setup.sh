@@ -28,6 +28,9 @@ sudo apt-get install -y \
     libisl-dev zlib1g-dev wget curl \
     python3-serial libusb-1.0-0-dev
 
+sudo sed -i 's/^CONF_SWAPSIZE=512$/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
+sudo systemctl restart dphys-swapfile
+
 echo "==> Cloning CybikoStuff"
 if [ -d "$REPO_DIR" ]; then
     echo "    (already cloned, pulling latest)"
