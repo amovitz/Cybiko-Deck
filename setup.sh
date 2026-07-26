@@ -26,7 +26,7 @@ sudo apt-get install -y \
     autoconf automake libtool bison flex texinfo \
     gcc g++ gperf libgmp-dev libmpfr-dev libmpc-dev \
     libisl-dev zlib1g-dev wget curl \
-    python3-serial
+    python3-serial libusb-1.0-0-dev
 
 echo "==> Cloning CybikoStuff"
 if [ -d "$REPO_DIR" ]; then
@@ -62,6 +62,10 @@ echo "    into something the Cybiko/emulator can boot)"
 cd "$REPO_DIR/tools"
 cmake -G Ninja -B build
 ninja -C build
+
+echo "==> Adding a udev rule for loading applications"
+sudo echo 'SUBSYSTEM=="usb", MODE="0660", GROUP="plugdev"' > /etc/udev/rules.d/00-usb-permissions.rules
+sudo udevadm control --reload-rules
 
 export PATH="$TOOLCHAIN_BIN:\$PATH"
 
