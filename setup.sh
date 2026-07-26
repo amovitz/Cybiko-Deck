@@ -78,6 +78,11 @@ sudo systemctl enable Pybiko.service
 echo 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0b66", ATTR{idProduct}=="0041", SYMLINK+="cybiko", TAG+="systemd", ENV{SYSTEMD_WANTS}+="Pybiko.service"' \
     | sudo tee /etc/udev/rules.d/80-cybiko.rules
 
+echo "==> Disabling unused services"
+sudo systemctl disable systemd-networkd-wait-online.service
+sudo systemctl disable ModemManager.service
+
+
 export PATH="$TOOLCHAIN_BIN:\$PATH"
 
 cat <<EOF
