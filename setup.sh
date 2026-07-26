@@ -12,7 +12,7 @@
 # Result: a working h8300-elf-gcc/g++ toolchain in
 #   $ROOT/CybikoStuff/toolchain/prefix/bin
 #
-set -euo pipefail
+# set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_URL="https://github.com/amovitz/CybikoStuff.git"
