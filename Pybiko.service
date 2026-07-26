@@ -1,19 +1,19 @@
 # /etc/systemd/system/Pybiko.service
 
 [Unit]
-Description=Run Pybiko early in boot
+Description=Run Pybiko whenever USB is detected
 DefaultDependencies=no
+
+# Run when USB device is enumerated
+After=dev-cybiko.device
+Requires=dev-cybiko.device
 
 # Start after the root filesystem is mounted
 After=local-fs.target
 Requires=local-fs.target
 
-# Start before networking
-Before=network-pre.target
-Before=network.target
-
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/usr/bin/python3 /home/pi/src/Pybiko/Pybiko.py
 Restart=no
 

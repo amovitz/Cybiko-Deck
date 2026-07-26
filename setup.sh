@@ -67,13 +67,16 @@ cmake -G Ninja -B build
 ninja -C build
 
 echo "==> Adding a udev rule for loading applications"
-sudo echo 'SUBSYSTEM=="usb", MODE="0660", GROUP="plugdev"' > /etc/udev/rules.d/00-usb-permissions.rules
+echo 'SUBSYSTEM=="usb", MODE="0660", GROUP="plugdev"' \
+    | sudo tee /etc/udev/rules.d/00-usb-permissions.rules
 sudo udevadm control --reload-rules
 
 echo "==> Adding a system service"
 sudo cp Pybiko.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable Pybiko.service
+echo 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0b66", ATTR{idProduct}=="0041", SYMLINK+="cybiko", TAG+="systemd", ENV{SYSTEMD_WANTS}+="Pybiko.service"' \
+    | sudo tee /etc/udev/rules.d/80-cybiko.rules
 
 export PATH="$TOOLCHAIN_BIN:\$PATH"
 
