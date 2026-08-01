@@ -13,13 +13,16 @@ After=local-fs.target
 Requires=local-fs.target
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/usr/bin/python3 /home/pi/src/Pybiko/Pybiko.py
-Restart=no
+Restart=on-failure
+RestartSec=2
+StartLimitIntervalSec=15
+StartLimitBurst=5
 
 # Optional if the script writes to stdout/stderr
 StandardOutput=journal
 StandardError=journal
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=multiuser.target
