@@ -6,11 +6,12 @@ DefaultDependencies=no
 
 # Run when USB device is enumerated
 After=dev-cybiko.device
-Requires=dev-cybiko.device
 
 # Start after the root filesystem is mounted
 After=local-fs.target
 Requires=local-fs.target
+
+After=networking.target
 
 [Service]
 Type=simple
@@ -25,4 +26,4 @@ StandardOutput=journal
 StandardError=journal
 
 [Install]
-WantedBy=multiuser.target
+WantedBy=multi-user.target
