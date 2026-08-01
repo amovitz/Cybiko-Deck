@@ -67,9 +67,10 @@ cmake -G Ninja -B build
 ninja -C build
 
 echo "==> Adding a udev rule for loading applications"
-cat <<EOF | sudo tee /etc/udev/rules.d/00-usb-permissions.rules
-ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0b66", ATTR{idProduct}=="0041", SYMLINK+="cybiko", TAG+="systemd", ENV{SYSTEMD_WANTS}+="Pybiko.service"
-ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0b66", ATTR{idProduct}=="0041", RUN+="/bin/sh -c 'export UP=$$(/usr/bin/systemctl status Pybiko | /usr/bin/grep -Po \".*; \\K(.*)(?=s ago)\"); echo $$UP; if ! [[ $$UP =~ ^[0-9]+$$ ]] || [ \"$$UP\" -gt 10 ]; then /usr/bin/systemctl --no-block stop Pybiko.service; fi'"
+echo 'SUBSYSTEM=="usb", MODE="0660", GROUP="plugdev"' \
+    | sudo tee /etc/udev/rules.d/00-usb-permissions.rules
+cat <<EOF | sudo tee /etc/udev/rules.d/80-cybiko.rules
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0b66", ATTR{idProduct}=="0041", SYMLINK+="cybiko", TAG+="systemd", ENV{SYSTEMD_WANTS}+="Pybiko.service", RUN+="/bin/sh -c 'export UP=$$(/usr/bin/systemctl status Pybiko | /usr/bin/grep -Po \".*; \\K(.*)(?=s ago)\"); echo $$UP; if ! [[ $$UP =~ ^[0-9]+$$ ]] || [ \"$$UP\" -gt 10 ]; then /usr/bin/systemctl --no-block restart Pybiko.service; fi'"
 EOF
 sudo udevadm control --reload-rules
 sudo udevadm trigger
@@ -78,8 +79,6 @@ echo "==> Adding a system service"
 sudo cp Pybiko.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable Pybiko.service
-echo 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0b66", ATTR{idProduct}=="0041", SYMLINK+="cybiko", TAG+="systemd", ENV{SYSTEMD_WANTS}+="Pybiko.service"' \
-    | sudo tee /etc/udev/rules.d/80-cybiko.rules
 
 echo "==> Disabling unused services"
 sudo systemctl disable systemd-networkd-wait-online.service
