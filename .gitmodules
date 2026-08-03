@@ -1,9 +1,9 @@
 [submodule "CybikoTUI"]
 	path = CybikoTUI
-	url = https://github.com/amovitz/CybikoTUI.git
+	url = git@github.com:amovitz/CybikoTUI.git
 [submodule "CybikoStuff"]
 	path = CybikoStuff
-	url = https://github.com/amovitz/CybikoStuff.git
+	url = git@github.com:amovitz/CybikoStuff.git
 [submodule "Pybiko"]
 	path = Pybiko
-	url = https://github.com/amovitz/Pybiko.git
+	url = git@github.com:amovitz/Pybiko.git
