@@ -15,9 +15,10 @@
 # set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_URL="https://github.com/amovitz/CybikoStuff.git"
 REPO_DIR="$ROOT/CybikoStuff"
 REPO_BRANCH="build_fixes"
+
+git submodule update --init --recursive
 
 echo "==> Installing build dependencies"
 sudo apt-get update
@@ -30,17 +31,6 @@ sudo apt-get install -y \
 
 sudo sed -i 's/^CONF_SWAPSIZE=512$/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
 sudo systemctl restart dphys-swapfile
-
-echo "==> Cloning CybikoStuff"
-if [ -d "$REPO_DIR" ]; then
-    echo "    (already cloned, pulling latest)"
-    cd $REPO_DIR
-    git checkout $REPO_BRANCH
-    git -C "$REPO_DIR" pull --ff-only
-else
-    git clone "$REPO_URL" "$REPO_DIR"
-    git checkout $REPO_BRANCH
-fi
 
 echo "==> Building the H8 toolchain (this can take a while — it builds"
 echo "    binutils + gcc + newlib from source)"
